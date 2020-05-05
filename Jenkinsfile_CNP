@@ -6,6 +6,6 @@ def product = 'ethos'
 
 withInfraPipeline(product) {
 
-  enableSlackNotifications('#bsp-build-notices')
+  enableSlackNotifications('#ethos-repl-service')
 
 }
