@@ -1,0 +1,11 @@
+#!groovy
+
+@Library("Infrastructure") _
+
+def product = 'ethos'
+
+withInfraPipeline(product) {
+
+  enableSlackNotifications('#ethos-repl-service')
+
+}
