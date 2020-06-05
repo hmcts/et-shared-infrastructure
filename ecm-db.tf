@@ -13,31 +13,31 @@ module "ecm-database" {
   subscription       = var.subscription
 }
 
-resource "azurerm_key_vault_secret" "ecm-postgres-user" {
+resource "azurerm_key_vault_secret" "ecm_postgres_user" {
   name         = "ecm-consumer-postgres-user"
   value        = module.ecm-database.user_name
   key_vault_id = module.key-vault.key_vault_id
 }
 
-resource "azurerm_key_vault_secret" "ecm-postgres-password" {
+resource "azurerm_key_vault_secret" "ecm_postgres_password" {
   name         = "ecm-consumer-postgres-password"
   value        = module.ecm-database.postgresql_password
   key_vault_id = module.key-vault.key_vault_id
 }
 
-resource "azurerm_key_vault_secret" "ecm-postgres-host" {
+resource "azurerm_key_vault_secret" "ecm_postgres_host" {
   name         = "ecm-consumer-postgres-host"
   value        = module.ecm-database.host_name
   key_vault_id = module.key-vault.key_vault_id
 }
 
-resource "azurerm_key_vault_secret" "ecm-postgres-port" {
+resource "azurerm_key_vault_secret" "ecm_postgres_port" {
   name         = "ecm-consumer-postgres-port"
   value        = module.ecm-database.postgresql_listen_port
   key_vault_id = module.key-vault.key_vault_id
 }
 
-resource "azurerm_key_vault_secret" "ecm-postgres-database" {
+resource "azurerm_key_vault_secret" "ecm_postgres_database" {
   name         = "ecm-consumer-postgres-database"
   value        = module.ecm-database.postgresql_database
   key_vault_id = module.key-vault.key_vault_id
