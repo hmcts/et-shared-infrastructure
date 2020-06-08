@@ -9,10 +9,6 @@ locals {
     "Team Contact" = var.team_contact
     "Destroy Me"   = var.destroy_me
   }
-
-  tags = merge(var.common_tags,
-    map("Team Contact", "#ethos-repl-service")
-  )
 }
 
 resource "azurerm_resource_group" "rg" {
