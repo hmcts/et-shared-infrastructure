@@ -9,4 +9,4 @@ properties([
 		])
 ])
 
-sharedInfrastructurePipeline('ethos', params.ENVIRONMENT, 'sandbox')
+sharedInfrastructurePipeline('et', params.ENVIRONMENT, 'sandbox')

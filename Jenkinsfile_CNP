@@ -2,13 +2,11 @@
 
 @Library("Infrastructure") _
 
-def product = 'ethos'
+def product = 'et'
 def branchesToSync = ['demo', 'perftest']
 
 withInfraPipeline(product) {
-
   syncBranchesWithMaster(branchesToSync)
 
-  enableSlackNotifications('#ethos-repl-service')
-
+  enableSlackNotifications('#et-builds')
 }
