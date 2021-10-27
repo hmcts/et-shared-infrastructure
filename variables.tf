@@ -1,5 +1,5 @@
 variable "product" {
-  default = "ethos"
+  default = "et"
 }
 
 variable "location" {
@@ -62,12 +62,12 @@ variable "queue_max_delivery_count" {
 
 variable "team_name" {
   description = "Team name"
-  default     = "ECM Project"
+  default     = "Employment Tribunals"
 }
 
 variable "team_contact" {
   description = "Team contact"
-  default     = "#ethos-repl-service"
+  default     = "#et-tech"
 }
 
 variable "destroy_me" {
