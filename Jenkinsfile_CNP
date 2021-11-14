@@ -2,11 +2,9 @@
 
 @Library("Infrastructure") _
 
-def product = 'et'
 def branchesToSync = ['demo', 'perftest']
 
-withInfraPipeline(product) {
+withInfraPipeline('et') {
   syncBranchesWithMaster(branchesToSync)
-
   enableSlackNotifications('#et-builds')
 }

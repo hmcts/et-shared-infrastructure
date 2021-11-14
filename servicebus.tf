@@ -1,8 +1,8 @@
-module "queue-namespace" {
+module "servicebus-namespace" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=master"
-  name                = "${var.product}-servicebus-${var.env}"
-  location            = var.location
+  name                = "${var.product}-${var.env}"
   resource_group_name = azurerm_resource_group.rg.name
+  location            = var.location
   env                 = var.env
   common_tags         = local.common_tags
 }
@@ -10,7 +10,7 @@ module "queue-namespace" {
 module "create-updates-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "create-updates"
-  namespace_name      = module.queue-namespace.name
+  namespace_name      = module.servicebus-namespace.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
@@ -22,7 +22,7 @@ module "create-updates-queue" {
 module "update-case-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "update-case"
-  namespace_name      = module.queue-namespace.name
+  namespace_name      = module.servicebus-namespace.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
