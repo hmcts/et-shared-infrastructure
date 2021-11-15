@@ -2,7 +2,7 @@
 
 @Library("Infrastructure") _
 
-def branchesToSync = ['demo', 'perftest']
+def branchesToSync = ['demo']
 
 withInfraPipeline('et') {
   syncBranchesWithMaster(branchesToSync)
