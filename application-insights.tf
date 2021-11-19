@@ -4,7 +4,7 @@ resource "azurerm_application_insights" "appinsights" {
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
 
-  tags = var.common_tags
+  tags = local.tags
 
   lifecycle {
     ignore_changes = [
