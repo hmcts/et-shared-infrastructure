@@ -1,4 +1,8 @@
 module "servicebus-namespace" {
+  providers = {
+    azurerm.private-endpoint = azurerm.private-endpoint
+  }
+  
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=master"
   name                = "${var.product}-${var.env}"
   resource_group_name = azurerm_resource_group.rg.name
