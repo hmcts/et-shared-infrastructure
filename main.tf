@@ -4,12 +4,12 @@ provider "azurerm" {
 
 locals {
   tags = merge(var.common_tags,
-    map(
-      "environment", var.env,
-      "managedBy", var.team_name,
-      "Team Contact", var.team_contact,
-      "lastUpdated", timestamp()
-    )
+    tomap({
+      "environment" = var.env
+      "managedBy" = var.team_name
+      "Team Contact" = var.team_contact
+      "lastUpdated" = timestamp()
+    })
   )
 }
 
