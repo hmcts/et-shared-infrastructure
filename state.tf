@@ -8,3 +8,10 @@ terraform {
     }
   }
 }
+
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+  alias                      = "private_endpoint"
+  subscription_id            = var.aks_subscription_id
+}
