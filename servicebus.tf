@@ -8,7 +8,7 @@ module "servicebus-namespace" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
   env                 = var.env
-  common_tags         = local.tags
+  common_tags         = var.common_tags
 }
 
 module "create-updates-queue" {

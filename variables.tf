@@ -38,14 +38,4 @@ variable "queue_max_delivery_count" {
   description = "Queue message max delivery counter. Extracted to variable so it can be assigned to application environment."
 }
 
-variable "team_name" {
-  description = "Team name"
-  default     = "DTS Employment Tribunals"
-}
-
-variable "team_contact" {
-  description = "Team contact"
-  default     = "#et-tech"
-}
-
 variable "aks_subscription_id" {}
