@@ -14,6 +14,9 @@ module "servicebus-namespace" {
   location            = var.location
   env                 = var.env
   common_tags         = var.common_tags
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }
 
 module "create-updates-queue" {
@@ -26,6 +29,9 @@ module "create-updates-queue" {
   duplicate_detection_history_time_window = "PT59M"
   lock_duration                           = "PT5M"
   max_delivery_count                      = var.queue_max_delivery_count
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }
 
 module "update-case-queue" {
@@ -38,6 +44,9 @@ module "update-case-queue" {
   duplicate_detection_history_time_window = "PT59M"
   lock_duration                           = "PT5M"
   max_delivery_count                      = var.queue_max_delivery_count
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }
 
 # region connection strings and other shared queue information as Key Vault secrets
