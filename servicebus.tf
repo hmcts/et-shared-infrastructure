@@ -1,8 +1,3 @@
-#Adding data as a hack for  https://github.com/hashicorp/terraform/issues/26074#issuecomment-693696693
-data "azurerm_resource_group" "rg" {
-  name     = "${var.product}-${var.env}"
-}
-
 module "servicebus-namespace" {
   providers = {
     azurerm.private_endpoint = azurerm.private_endpoint
@@ -10,7 +5,7 @@ module "servicebus-namespace" {
 
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=master"
   name                = "${var.product}-${var.env}"
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
   env                 = var.env
   common_tags         = var.common_tags
@@ -23,7 +18,7 @@ module "create-updates-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "create-updates"
   namespace_name      = module.servicebus-namespace.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
   duplicate_detection_history_time_window = "PT59M"
@@ -38,7 +33,7 @@ module "update-case-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "update-case"
   namespace_name      = module.servicebus-namespace.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
   duplicate_detection_history_time_window = "PT59M"
