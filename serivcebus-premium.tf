@@ -39,14 +39,14 @@ module "update-case-premium-queue" {
 }
 
 # region connection strings and other shared queue information as Key Vault secrets
-resource "azurerm_key_vault_secret" "create_updates__premium_queue_send_conn_str" {
+resource "azurerm_key_vault_secret" "create_updates_premium_queue_send_conn_str" {
   name         = "create-updates-premium-queue-send-connection-string"
   value        = module.create-updates-premium-queue.primary_send_connection_string
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
-resource "azurerm_key_vault_secret" "create_updates__premium_queue_listen_conn_str" {
-  name         = "create-updates--premium-queue-listen-connection-string"
+resource "azurerm_key_vault_secret" "create_updates_premium_queue_listen_conn_str" {
+  name         = "create-updates-premium-queue-listen-connection-string"
   value        = module.create-updates-premium-queue.primary_listen_connection_string
   key_vault_id = module.et-key-vault.key_vault_id
 }
