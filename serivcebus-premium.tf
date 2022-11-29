@@ -11,6 +11,9 @@ module "servicebus-namespace-premium" {
   capacity            = 1
   zone_redundant      = true
   common_tags         = var.common_tags
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }
 
 module "create-updates-premium-queue" {
