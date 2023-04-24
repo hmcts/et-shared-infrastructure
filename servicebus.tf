@@ -1,23 +1,7 @@
-module "servicebus-namespace" {
-  providers = {
-    azurerm.private_endpoint = azurerm.private_endpoint
-  }
-
-  source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=master"
-  name                = "${var.product}-${var.env}"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = var.location
-  env                 = var.env
-  common_tags         = var.common_tags
-  depends_on = [
-    azurerm_resource_group.rg
-  ]
-}
-
 module "create-updates-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "create-updates"
-  namespace_name      = module.servicebus-namespace.name
+  namespace_name      = module.servicebus-namespace-premium.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
@@ -32,7 +16,7 @@ module "create-updates-queue" {
 module "update-case-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "update-case"
-  namespace_name      = module.servicebus-namespace.name
+  namespace_name      = module.servicebus-namespace-premium.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
