@@ -1,2 +1,2 @@
-servicebus_zone_redundant = false
+servicebus_zone_redundant = true
 servicebus_sku = "Premium"
