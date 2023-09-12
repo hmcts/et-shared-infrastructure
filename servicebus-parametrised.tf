@@ -8,7 +8,7 @@ module "servicebus-namespace" {
   location            = var.location
   env                 = var.env
   common_tags         = var.common_tags
-  zone_redundant      = var.servicebus_zone_redundant #currently unused, we don't think we need redundancy currently but could change.
+  zone_redundant      = var.servicebus_zone_redundant
   sku                 = var.servicebus_sku
 }
 
