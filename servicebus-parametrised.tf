@@ -11,3 +11,8 @@ module "servicebus-namespace" {
   zone_redundant      = var.servicebus_zone_redundant #currently unused, we don't think we need redundancy currently but could change.
   sku                 = var.servicebus_sku
 }
+
+moved {
+  from = module.servicebus-namespace-premium
+  to   = module.servicebus-namespace
+}
