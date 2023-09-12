@@ -1,4 +1,4 @@
-module "servicebus-namespace-new" {
+module "servicebus-namespace-v2" {
   providers = {
     azurerm.private_endpoint = azurerm.private_endpoint
   }
@@ -15,7 +15,7 @@ module "servicebus-namespace-new" {
 module "create-updates-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "create-updates"
-  namespace_name      = module.servicebus-namespace-new.name
+  namespace_name      = module.servicebus-namespace-v2.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
@@ -30,7 +30,7 @@ module "create-updates-queue" {
 module "update-case-queue" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "update-case"
-  namespace_name      = module.servicebus-namespace-new.name
+  namespace_name      = module.servicebus-namespace-v2.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
