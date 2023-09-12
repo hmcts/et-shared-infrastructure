@@ -1,9 +1,9 @@
-module "servicebus-namespace-v2" {
+module "servicebus-namespace-ret3725" {
   providers = {
     azurerm.private_endpoint = azurerm.private_endpoint
   }
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=master"
-  name                = "${var.product}-${var.env}"
+  name                = "${var.product}-sb-${var.env}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
   env                 = var.env
@@ -12,10 +12,10 @@ module "servicebus-namespace-v2" {
   sku                 = var.servicebus_sku
 }
 
-module "create-updates-queue-v2" {
+module "create-updates-queue-ret3725" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "create-updates"
-  namespace_name      = module.servicebus-namespace-v2.name
+  namespace_name      = module.servicebus-namespace-ret3725.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
@@ -27,10 +27,10 @@ module "create-updates-queue-v2" {
   ]
 }
 
-module "update-case-queue-v2" {
+module "update-case-queue-ret3725" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
   name                = "update-case"
-  namespace_name      = module.servicebus-namespace-v2.name
+  namespace_name      = module.servicebus-namespace-ret3725.name
   resource_group_name = azurerm_resource_group.rg.name
 
   requires_duplicate_detection            = "true"
@@ -45,13 +45,13 @@ module "update-case-queue-v2" {
 # region connection strings and other shared queue information as Key Vault secrets
 resource "azurerm_key_vault_secret" "create_updates_queue_send_conn_str" {
   name         = "create-updates-queue-send-connection-string"
-  value        = module.create-updates-queue-v2.primary_send_connection_string
+  value        = module.create-updates-queue-ret3725.primary_send_connection_string
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "create_updates_queue_listen_conn_str" {
   name         = "create-updates-queue-listen-connection-string"
-  value        = module.create-updates-queue-v2.primary_listen_connection_string
+  value        = module.create-updates-queue-ret3725.primary_listen_connection_string
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
@@ -63,13 +63,13 @@ resource "azurerm_key_vault_secret" "create_updates_queue_max_delivery_count" {
 
 resource "azurerm_key_vault_secret" "update_case_queue_send_conn_str" {
   name         = "update-case-queue-send-connection-string"
-  value        = module.update-case-queue-v2.primary_send_connection_string
+  value        = module.update-case-queue-ret3725.primary_send_connection_string
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "update_case_queue_listen_conn_str" {
   name         = "update-case-queue-listen-connection-string"
-  value        = module.update-case-queue-v2.primary_listen_connection_string
+  value        = module.update-case-queue-ret3725.primary_listen_connection_string
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
@@ -83,22 +83,22 @@ resource "azurerm_key_vault_secret" "update_case_queue_max_delivery_count" {
 
 output "create_updates_queue_primary_listen_connection_string" {
   sensitive = true
-  value     = module.create-updates-queue-v2.primary_listen_connection_string
+  value     = module.create-updates-queue-ret3725.primary_listen_connection_string
 }
 
 output "create_updates_queue_primary_send_connection_string" {
   sensitive = true
-  value     = module.create-updates-queue-v2.primary_send_connection_string
+  value     = module.create-updates-queue-ret3725.primary_send_connection_string
 }
 
 output "update_case_queue_primary_listen_connection_string" {
   sensitive = true
-  value     = module.update-case-queue-v2.primary_listen_connection_string
+  value     = module.update-case-queue-ret3725.primary_listen_connection_string
 }
 
 output "update_case_queue_primary_send_connection_string" {
   sensitive = true
-  value     = module.update-case-queue-v2.primary_send_connection_string
+  value     = module.update-case-queue-ret3725.primary_send_connection_string
 }
 
 output "queue_max_delivery_count" {
