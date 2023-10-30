@@ -46,31 +46,4 @@ variable "queue_max_delivery_count" {
   description = "Queue message max delivery counter. Extracted to variable so it can be assigned to application environment."
 }
 
-variable "aks_subscription_id" {
-}
-
-variable "component" {
-}
-
-variable "businessArea" {
-  default = "CFT"
-}
-
-variable "team_name" {
-  description = "Team name"
-  default     = "Employment Tribunals"
-}
-
-variable "team_contact" {
-  description = "Team contact"
-  default     = "#et-tech"
-}
-
-variable "destroy_me" {
-  description = "Here be dragons! In the future if this is set to Yes then automation will delete this resource on a schedule. Please set to No unless you know what you are doing"
-  default     = "No"
-}
-
-variable "builtFrom" {
-  default = "https://github.com/HMCTS/et-shared-infrastructure.git"
-}
+variable "aks_subscription_id" {}
