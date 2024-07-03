@@ -7,6 +7,6 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
   tags     = var.common_tags
   lifecycle {
-    ignore_changes = all
+    ignore_changes = module.servicebus-namespace-ret3725
   }
 }
