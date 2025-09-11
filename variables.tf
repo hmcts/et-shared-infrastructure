@@ -6,10 +6,6 @@ variable "servicebus_sku" {
   default = "Standard"
 }
 
-variable "servicebus_zone_redundant" {
-  default = false
-}
-
 variable "location" {
   default = "UK South"
 }
