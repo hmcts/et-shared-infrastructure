@@ -2,18 +2,17 @@ module "servicebus-namespace-ret3725" {
   providers = {
     azurerm.private_endpoint = azurerm.private_endpoint
   }
-  source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=master"
+  source              = "git@github.com:hmcts/terraform-module-servicebus-namespace?ref=4.x"
   name                = "${var.product}-sb-${var.env}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
   env                 = var.env
   common_tags         = var.common_tags
-  zone_redundant      = var.servicebus_zone_redundant
   sku                 = var.servicebus_sku
 }
 
 module "create-updates-queue-ret3725" {
-  source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
+  source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=4.x"
   name                = "create-updates"
   namespace_name      = module.servicebus-namespace-ret3725.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -28,7 +27,7 @@ module "create-updates-queue-ret3725" {
 }
 
 module "update-case-queue-ret3725" {
-  source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=master"
+  source              = "git@github.com:hmcts/terraform-module-servicebus-queue?ref=4.x"
   name                = "update-case"
   namespace_name      = module.servicebus-namespace-ret3725.name
   resource_group_name = azurerm_resource_group.rg.name
