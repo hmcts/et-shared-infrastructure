@@ -36,14 +36,6 @@ resource "azurerm_key_vault_secret" "app_insights_workspace_id" {
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
-# Add the role assignment (Step 3) - prod only
-resource "azurerm_role_assignment" "slack_alerts_monitoring_reader" {
-  count                = var.env == "prod" ? 1 : 0
-  scope                = module.application_insights.id
-  role_definition_name = "Monitoring Reader"
-  principal_id         = "MANAGED_IDENTITY_PRINCIPAL_ID" # Get this from the Function App in Azure Portal
-}
-
 resource "azurerm_role_assignment" "slack_alerts_monitoring_reader" {
   count                = var.env == "prod" ? 1 : 0
   scope                = module.application_insights.id
