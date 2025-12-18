@@ -44,7 +44,7 @@ resource "azurerm_key_vault_secret" "app_insights_workspace_id" {
 # Grant Monitoring Reader role to slack alerts function app (Step 3 from migration guide)
 resource "azurerm_role_assignment" "slack_alerts_monitoring_reader" {
   count                = var.env == "prod" ? 1 : 0
-  scope                = module.application_insights.id
+  scope                = data.azurerm_application_insights.this.workspace_id
   role_definition_name = "Monitoring Reader"
   principal_id         = local.slack_alerts_principal_id
 }
