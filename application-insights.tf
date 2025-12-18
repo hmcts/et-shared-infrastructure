@@ -46,5 +46,5 @@ resource "azurerm_role_assignment" "slack_alerts_monitoring_reader" {
   count                = var.env == "prod" ? 1 : 0
   scope                = module.application_insights.id
   role_definition_name = "Monitoring Reader"
-  principal_id         = data.azurerm_linux_function_app.slack_alerts[0].identity[0].principal_id
+  principal_id         = local.slack_alerts_principal_id
 }

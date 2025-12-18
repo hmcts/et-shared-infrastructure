@@ -43,9 +43,3 @@ variable "queue_max_delivery_count" {
 }
 
 variable "aks_subscription_id" {}
-
-variable "slack_alerts_subscription_id" {
-  type        = string
-  description = "Subscription ID where slack alerts function app exists"
-  default     = "b72ab7b7-723f-4b18-b6f6-03b0f2c6a1bb"
-}

@@ -2,12 +2,6 @@ provider "azurerm" {
   features {}
 }
 
-# Provider for the subscription where slack alerts function app exists
-provider "azurerm" {
-  alias           = "slack_alerts"
-  subscription_id = var.slack_alerts_subscription_id
-  features {}
-}
 
 resource "azurerm_resource_group" "rg" {
   name     = "${var.product}-${var.env}"
@@ -18,10 +12,9 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-# Reference slack alerts function app in separate subscription/resource group
-data "azurerm_linux_function_app" "slack_alerts" {
-  count               = var.env == "prod" ? 1 : 0
-  provider            = azurerm.slack_alerts
-  name                = "et-slack-alerts-func"
-  resource_group_name = "et-slack-alerts-rg"
+# Slack alerts function app managed identity principal ID
+# Hardcoded because pipeline service principal lacks access to subscription b72ab7b7-723f-4b18-b6f6-03b0f2c6a1bb
+# If function app is recreated, update this ID from: az functionapp identity show --name et-slack-alerts-func --resource-group et-slack-alerts-rg --query principalId -o tsv
+locals {
+  slack_alerts_principal_id = "31b0c542-4a7e-4175-9d0c-0a343c7f7a05"
 }
