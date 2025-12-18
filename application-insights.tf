@@ -30,9 +30,14 @@ resource "azurerm_key_vault_secret" "app_insights_connection_string" {
 }
 
 # Workspace ID for Azure AD authenticated queries
+data "azurerm_application_insights" "this" {
+  name                = module.application_insights.name
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
 resource "azurerm_key_vault_secret" "app_insights_workspace_id" {
   name         = "app-insights-workspace-id"
-  value        = module.application_insights.log_analytics_workspace_id.workspace_id
+  value        = data.azurerm_application_insights.this.workspace_id
   key_vault_id = module.et-key-vault.key_vault_id
 }
 
