@@ -43,3 +43,9 @@ variable "queue_max_delivery_count" {
 }
 
 variable "aks_subscription_id" {}
+
+variable "slack_alerts_principal_id" {
+  description = "Managed identity principal ID of the slack alerts function app. Only needed in prod."
+  type        = string
+  default     = ""
+}
