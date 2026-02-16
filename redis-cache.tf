@@ -1,0 +1,23 @@
+module "et-session-storage" {
+  source                        = "git@github.com:hmcts/cnp-module-redis?ref=DTSPO-17012-data-persistency-4.x"
+  product                       = "${var.product}-session-storage"
+  location                      = var.location
+  env                           = var.env
+  private_endpoint_enabled      = true
+  redis_version                 = "6"
+  business_area                 = "cft"
+  public_network_access_enabled = false
+  common_tags                   = var.common_tags
+  sku_name                      = var.sku_name
+  family                        = var.family
+  capacity                      = var.capacity
+  rdb_backup_enabled            = var.rdb_backup_enabled
+  rdb_backup_frequency          = var.redis_backup_frequency
+  rdb_backup_max_snapshot_count = var.rdb_backup_max_snapshot_count
+}
+
+resource "azurerm_key_vault_secret" "et-redis_access_key" {
+  name         = "et-redis-access-key"
+  value        = module.et-session-storage.access_key
+  key_vault_id = module.et-key-vault.key_vault_id
+}
