@@ -37,11 +37,6 @@ variable "appinsights_location" {
   description = "Location for Application Insights"
 }
 
-variable "queue_max_delivery_count" {
-  default     = "10"
-  description = "Queue message max delivery counter. Extracted to variable so it can be assigned to application environment."
-}
-
 variable "aks_subscription_id" {}
 
 variable "slack_alerts_principal_id" {
