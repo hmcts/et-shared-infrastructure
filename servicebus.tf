@@ -5,7 +5,7 @@ data "azurerm_servicebus_namespace" "ccd_namespace" {
 
 data "azurerm_servicebus_topic" "ccd_case_events_topic" {
   name                = "ccd-case-events-${var.env}"
-  namespace_id      = data.azurerm_servicebus_namespace.ccd_namespace.id
+  namespace_id        = data.azurerm_servicebus_namespace.ccd_namespace.id
   resource_group_name = data.azurerm_servicebus_namespace.ccd_namespace.resource_group_name
 }
 
