@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure") _
+@Library("Infrastructure@2.4.9") _
 
 def branchesToSync = ['demo', 'perftest', 'ithc']
 
