@@ -49,13 +49,13 @@ resource "azurerm_key_vault_secret" "et_managed_redis_access_key" {
 # Until now the frontends signed session cookies with the Redis access key, which
 # tied cookie validity to the cache being migrated. Give them a dedicated secret so
 # the two can be rotated independently.
-resource "random_password" "et_session_secret" {
+resource "random_string" "et_session_secret" {
   length  = 64
   special = false
 }
 
 resource "azurerm_key_vault_secret" "et_session_secret" {
   name         = "et-session-secret"
-  value        = random_password.et_session_secret.result
+  value        = random_string.et_session_secret.result
   key_vault_id = module.et-key-vault.key_vault_id
 }
