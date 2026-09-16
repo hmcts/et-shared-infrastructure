@@ -71,3 +71,27 @@ variable "redis_backup_frequency" {
   default     = "360"
   description = "The Backup Frequency in Minutes. Only supported on Premium SKUs. Possible values are: 15, 30, 60, 360, 720 and 1440"
 }
+
+### Azure Managed Redis
+
+variable "managed_redis_sku_name" {
+  default     = "Balanced_B0"
+  description = "The SKU of the Managed Redis instance, as <Tier>_<Size>. Balanced_B0 is the smallest and is enough for a session store in non-prod."
+}
+
+variable "managed_redis_high_availability_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether the Managed Redis instance is replicated. Off in non-prod to match the single-node Basic C1 classic cache and keep the cost down. Changing this forces a new resource."
+}
+
+variable "managed_redis_rdb_backup_frequency" {
+  type        = string
+  default     = null
+  description = "Frequency of Managed Redis RDB snapshots. Possible values are 1h, 6h and 12h; null disables persistence."
+}
+
+variable "private_dns_subscription_id" {
+  default     = "1baf5470-1c3e-40d3-a6f7-74bfbce4b348"
+  description = "Subscription holding the shared core-infra private DNS zones."
+}

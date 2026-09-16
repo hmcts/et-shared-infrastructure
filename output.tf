@@ -5,3 +5,11 @@ output "vaultName" {
 output "vaultUri" {
   value = module.et-key-vault.key_vault_uri
 }
+
+output "managedRedisHostname" {
+  value = module.et-managed-redis.hostname
+}
+
+output "managedRedisPort" {
+  value = module.et-managed-redis.port
+}
