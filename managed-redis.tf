@@ -1,7 +1,6 @@
-# Azure Managed Redis for et-sya / et-syr session storage.
-#
-# Deployed alongside module.et-session-storage: the frontends dual-write to both
-# instances, then reads flip, then the classic cache is dropped.
+# Azure Managed Redis for et-sya / et-syr session storage. Replaced the classic
+# Azure Cache for Redis (module.et-session-storage), removed once every
+# environment was reading and writing here.
 module "et-managed-redis" {
   source = "git@github.com:hmcts/terraform-module-azure-managed-redis?ref=main"
 
