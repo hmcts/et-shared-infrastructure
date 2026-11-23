@@ -69,32 +69,32 @@ variable "private_dns_subscription_id" {
 
 variable "enable_openai" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to provision the Azure OpenAI (AIServices) resource in this environment."
 }
 
 variable "openai_deployment_name" {
   type        = string
-  default     = "gpt-5"
+  default     = "gpt-4.1-mini"
   description = "Deployment name for the Azure OpenAI model."
 }
 
 variable "openai_model_name" {
   type        = string
-  default     = "gpt-5"
+  default     = "gpt-4.1-mini"
   description = "Model name to deploy in Azure OpenAI / AIServices."
 }
 
 variable "openai_model_version" {
   type        = string
-  default     = "2025-08-07"
+  default     = "2025-04-14"
   description = "Model version for the Azure OpenAI deployment."
 }
 
 variable "openai_sku_name" {
   type        = string
-  default     = "GlobalStandard"
-  description = "Deployment SKU (gpt-5 2025-08-07 in UK South supports GlobalStandard pay-as-you-go)."
+  default     = "Standard"
+  description = "Deployment SKU (Standard keeps processing regional in UK South)."
 }
 
 variable "openai_tpm_capacity" {

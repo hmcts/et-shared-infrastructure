@@ -1,4 +1,4 @@
-# Azure OpenAI (AIServices) for ET1 AI Vetting in UK South (BYO backend for HMCTS AI Gateway).
+# Azure OpenAI (AIServices) in UK South (BYO backend for HMCTS AI Gateway).
 # Provisioned via hmcts/terraform-module-ai-services with Entra-only auth
 # (local_auth_enabled = false), public network access disabled, and network ACLs
 # set to Deny (required by platform-ai-gateway-infra's byo_baseline check).
