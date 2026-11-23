@@ -13,3 +13,11 @@ output "managedRedisHostname" {
 output "managedRedisPort" {
   value = module.et-managed-redis.port
 }
+
+output "openaiAccountId" {
+  value = var.enable_openai ? module.openai_services[0].cognitive_account_id : null
+}
+
+output "openaiEndpoint" {
+  value = var.enable_openai ? one(module.openai_services[0].cognitive_account_endpoint) : null
+}
