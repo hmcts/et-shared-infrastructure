@@ -65,34 +65,46 @@ variable "private_dns_subscription_id" {
   description = "Subscription holding the shared core-infra private DNS zones."
 }
 
-### Azure OpenAI (ET1 AI Vetting)
+### Azure OpenAI (ET AI - BYO for HMCTS AI Gateway)
+
+variable "enable_openai" {
+  type        = bool
+  default     = true
+  description = "Whether to provision the Azure OpenAI (AIServices) resource in this environment."
+}
 
 variable "openai_deployment_name" {
   type        = string
-  default     = "gpt-4.1-mini"
+  default     = "gpt-5"
   description = "Deployment name for the Azure OpenAI model."
 }
 
 variable "openai_model_name" {
   type        = string
-  default     = "gpt-4.1-mini"
+  default     = "gpt-5"
   description = "Model name to deploy in Azure OpenAI / AIServices."
 }
 
 variable "openai_model_version" {
   type        = string
-  default     = "2025-04-14"
+  default     = "2025-08-07"
   description = "Model version for the Azure OpenAI deployment."
 }
 
 variable "openai_sku_name" {
   type        = string
-  default     = "Standard"
-  description = "Deployment SKU (Standard keeps processing regional in UK South)."
+  default     = "GlobalStandard"
+  description = "Deployment SKU (gpt-5 2025-08-07 in UK South supports GlobalStandard pay-as-you-go)."
 }
 
 variable "openai_tpm_capacity" {
   type        = number
   default     = 30
   description = "Deployment capacity in thousands of tokens per minute (TPM)."
+}
+
+variable "ai_gateway_principal_id" {
+  type        = string
+  default     = ""
+  description = "Object ID of the HMCTS AI Gateway APIM managed identity granted Cognitive Services OpenAI User."
 }

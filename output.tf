@@ -15,13 +15,9 @@ output "managedRedisPort" {
 }
 
 output "openaiAccountId" {
-  value = module.openai_services.cognitive_account_id
+  value = var.enable_openai ? module.openai_services[0].cognitive_account_id : null
 }
 
 output "openaiEndpoint" {
-  value = one(module.openai_services.cognitive_account_endpoint)
-}
-
-output "openaiPrivateEndpointDns" {
-  value = azurerm_private_endpoint.openai.custom_dns_configs
+  value = var.enable_openai ? one(module.openai_services[0].cognitive_account_endpoint) : null
 }

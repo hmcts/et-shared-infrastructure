@@ -1,20 +1,14 @@
-# Azure OpenAI (AIServices) for ET1 AI Vetting in UK South.
+# Azure OpenAI (AIServices) for ET1 AI Vetting in UK South (BYO backend for HMCTS AI Gateway).
 # Provisioned via hmcts/terraform-module-ai-services with Entra-only auth
-# (local_auth_enabled = false), public network access disabled, and a Private
-# Endpoint in the CFT AKS subscription's private-endpoints subnet.
+# (local_auth_enabled = false), public network access disabled, and network ACLs
+# set to Deny (required by platform-ai-gateway-infra's byo_baseline check).
 #
-# Note: Like hmcts/transcribe-shared-infrastructure, DNS A records in
-# privatelink.cognitiveservices.azure.com (core-infra-intsvc-rg) are managed
-# centrally via PR in hmcts/azure-private-dns using the openaiPrivateEndpointDns
-# output from the apply log.
-
-locals {
-  aks_env                 = var.env == "sandbox" ? "sbox" : var.env
-  cft_aks_network_name    = "cft-${local.aks_env}-vnet"
-  cft_aks_network_rg_name = "cft-${local.aks_env}-network-rg"
-}
+# Networking & DNS: platform-ai-gateway-infra creates and manages its own Private
+# Endpoint (azurerm_private_endpoint.byo) and Private DNS Zone Group to reach
+# this account, so no AKS Private Endpoint or azure-private-dns PR is needed here.
 
 module "openai_services" {
+  count  = var.enable_openai ? 1 : 0
   source = "git@github.com:hmcts/terraform-module-ai-services?ref=main"
 
   providers = {
@@ -39,7 +33,7 @@ module "openai_services" {
   cognitive_account_kind = "AIServices"
   cognitive_account_sku  = "S0"
 
-  # Entra-only auth (no API keys); AKS pods authenticate via Workload Identity.
+  # Entra-only auth & private network baseline required by HMCTS AI Gateway BYO.
   cognitive_account_local_auth_enabled                 = false
   public_network_access_cognitive                      = false
   cognitive_account_network_acls_default_action        = "Deny"
@@ -55,40 +49,19 @@ module "openai_services" {
   }
 }
 
-data "azurerm_subnet" "cft_private_endpoints" {
-  provider             = azurerm.private_endpoint
-  name                 = "private-endpoints"
-  virtual_network_name = local.cft_aks_network_name
-  resource_group_name  = local.cft_aks_network_rg_name
-}
-
-resource "azurerm_private_endpoint" "openai" {
-  provider            = azurerm.private_endpoint
-  name                = "${var.product}-openai-${var.env}-pe"
-  resource_group_name = local.cft_aks_network_rg_name
-  location            = var.location
-  subnet_id           = data.azurerm_subnet.cft_private_endpoints.id
-  tags                = var.common_tags
-
-  private_service_connection {
-    name                           = "${var.product}-openai-${var.env}-psc"
-    is_manual_connection           = false
-    private_connection_resource_id = module.openai_services.cognitive_account_id
-    subresource_names              = ["account"]
-  }
-
-  depends_on = [module.openai_services]
-}
-
-resource "azurerm_role_assignment" "openai_user" {
-  scope                = module.openai_services.cognitive_account_id
+# The HMCTS AI Gateway APIM managed identity authenticates to this BYO backend
+# (via the ai-backend-managed-identity policy fragment).
+resource "azurerm_role_assignment" "ai_gateway_openai_user" {
+  count                = var.enable_openai && var.ai_gateway_principal_id != "" ? 1 : 0
+  scope                = module.openai_services[0].cognitive_account_id
   role_definition_name = "Cognitive Services OpenAI User"
-  principal_id         = one(module.et-key-vault.managed_identity_objectid)
+  principal_id         = var.ai_gateway_principal_id
 }
 
 resource "azurerm_key_vault_secret" "openai_endpoint" {
+  count        = var.enable_openai ? 1 : 0
   name         = "azure-openai-endpoint"
-  value        = one(module.openai_services.cognitive_account_endpoint)
+  value        = one(module.openai_services[0].cognitive_account_endpoint)
   key_vault_id = module.et-key-vault.key_vault_id
 
   depends_on = [module.et-key-vault]
