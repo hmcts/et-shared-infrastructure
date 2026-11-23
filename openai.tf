@@ -54,7 +54,7 @@ module "openai_services" {
 resource "azurerm_role_assignment" "ai_gateway_openai_user" {
   count                = var.enable_openai && var.ai_gateway_principal_id != "" ? 1 : 0
   scope                = module.openai_services[0].cognitive_account_id
-  role_definition_name = "Cognitive Services OpenAI User"
+  role_definition_name = "Cognitive Services User"
   principal_id         = var.ai_gateway_principal_id
 }
 
