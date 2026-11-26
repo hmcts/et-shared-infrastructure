@@ -102,10 +102,39 @@ module "openai_services_eu" {
 
   cognitive_deployments = {
     (var.openai_eu_deployment_name) = {
-      model_name    = var.openai_eu_model_name
-      model_version = var.openai_eu_model_version
-      sku_name      = var.openai_eu_sku_name
-      sku_capacity  = var.openai_eu_tpm_capacity
+      model_name      = var.openai_eu_model_name
+      model_version   = var.openai_eu_model_version
+      sku_name        = var.openai_eu_sku_name
+      sku_capacity    = var.openai_eu_tpm_capacity
+      rai_policy_name = azapi_resource.openai_eu_rai_policy[0].name
+    }
+  }
+}
+
+# Relaxed RAI content filter for ET1 vetting: annotates rather than blocks prompt allegations
+# (e.g. harassment, discrimination, violence, or self-harm) in tribunal claims.
+resource "azapi_resource" "openai_eu_rai_policy" {
+  count     = var.enable_openai_eu ? 1 : 0
+  type      = "Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01"
+  name      = "et-rai-et1-vetting-${var.env}"
+  parent_id = "${azurerm_resource_group.rg.id}/providers/Microsoft.CognitiveServices/accounts/${var.product}-openai-eu-${var.env}"
+
+  body = {
+    properties = {
+      basePolicyName = "Microsoft.DefaultV2"
+      mode           = "Asynchronous_filter"
+      contentFilters = [
+        { name = "Hate", source = "Prompt", enabled = false, blocking = false },
+        { name = "Sexual", source = "Prompt", enabled = false, blocking = false },
+        { name = "Violence", source = "Prompt", enabled = false, blocking = false },
+        { name = "Selfharm", source = "Prompt", enabled = false, blocking = false },
+        { name = "Hate", source = "Completion", enabled = false, blocking = false },
+        { name = "Sexual", source = "Completion", enabled = false, blocking = false },
+        { name = "Violence", source = "Completion", enabled = false, blocking = false },
+        { name = "Selfharm", source = "Completion", enabled = false, blocking = false },
+        { name = "Jailbreak", source = "Prompt", enabled = true, blocking = true },
+        { name = "Protected Material Text", source = "Completion", enabled = true, blocking = true },
+      ]
     }
   }
 }
