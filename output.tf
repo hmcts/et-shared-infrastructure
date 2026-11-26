@@ -21,3 +21,11 @@ output "openaiAccountId" {
 output "openaiEndpoint" {
   value = var.enable_openai ? one(module.openai_services[0].cognitive_account_endpoint) : null
 }
+
+output "openaiEuAccountId" {
+  value = var.enable_openai_eu ? module.openai_services_eu[0].cognitive_account_id : null
+}
+
+output "openaiEuEndpoint" {
+  value = var.enable_openai_eu ? one(module.openai_services_eu[0].cognitive_account_endpoint) : null
+}

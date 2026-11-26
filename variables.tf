@@ -108,3 +108,39 @@ variable "ai_gateway_principal_id" {
   default     = ""
   description = "Object ID of the HMCTS AI Gateway APIM managed identity granted Cognitive Services OpenAI User."
 }
+
+variable "enable_openai_eu" {
+  type        = bool
+  default     = false
+  description = "Whether to provision the West Europe Azure OpenAI (AIServices) resource in this environment."
+}
+
+variable "openai_eu_deployment_name" {
+  type        = string
+  default     = "gpt-6.2-sol"
+  description = "Deployment name for the West Europe Azure OpenAI model."
+}
+
+variable "openai_eu_model_name" {
+  type        = string
+  default     = "gpt-6.2-sol"
+  description = "Model name to deploy in West Europe Azure OpenAI / AIServices."
+}
+
+variable "openai_eu_model_version" {
+  type        = string
+  default     = "2026-11-17"
+  description = "Model version for the West Europe Azure OpenAI deployment."
+}
+
+variable "openai_eu_sku_name" {
+  type        = string
+  default     = "DataZoneStandard"
+  description = "Deployment SKU (use Standard or DataZoneStandard to keep processing in EU)."
+}
+
+variable "openai_eu_tpm_capacity" {
+  type        = number
+  default     = 30
+  description = "Deployment capacity in thousands of tokens per minute (TPM)."
+}
